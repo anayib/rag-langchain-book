@@ -22,8 +22,7 @@ This is a work in progress and will be updated as we add more features to the pr
 
 1. Clone the repository
 2. Install the requirements
-3. Run the script
-4. Optionally, you can clean up the Chroma database by running the following command:
+3. Run the the following command to create the vector database:
 
 ```bash
 python create_database.py
@@ -33,13 +32,6 @@ python create_database.py
 ```bash
 python create_database.py --clean
 ```
-7. Optionally, you can delete the `chroma` directory and the `chroma_store.json` file by running the following command:
-
-```bash
-python create_database.py --delete
-```
-8. The script will create a Chroma database in the `chroma` directory.
-6. The script will also create a `chroma_store.json` file in the `chroma` directory.
 
 
 
