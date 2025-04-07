@@ -8,8 +8,8 @@ from langchain_community.vectorstores import Chroma  # Vector database for stori
 import openai  # OpenAI API
 from dotenv import load_dotenv  # Load environment variables from .env
 import os  # OS operations
-import shutil  # File operations
-
+import shutil  # File operations like deleting database folder
+import nltk
 # Load environment variables from .env file
 load_dotenv()
 
@@ -60,15 +60,22 @@ def save_to_chroma(chunks: list[Document]):
     if os.path.exists(CHROMA_PATH):
         shutil.rmtree(CHROMA_PATH)
 
+    # Create OpenAI embeddings with correct parameters
+    # The newer version doesn't accept 'proxies' parameter
+    embeddings = OpenAIEmbeddings(
+        openai_api_key=os.environ['OPENAI_API_KEY']
+    )
+
     # Create new Chroma database from chunks
     db = Chroma.from_documents(
         chunks,  # Processed document chunks
-        OpenAIEmbeddings(),  # OpenAI embedding function
+        embeddings,  # OpenAI embedding function with proper config
         persist_directory=CHROMA_PATH  # Directory to store database
     )
     db.persist()  # Save database to disk
     print(f"Saved {len(chunks)} chunks to {CHROMA_PATH}.")
 
+nltk.download('averaged_perceptron_tagger_eng')
 # Entry point for script execution
 if __name__ == "__main__":
     main()
